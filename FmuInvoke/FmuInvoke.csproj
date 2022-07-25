@@ -8,6 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ResourceHanRoundedCN-Medium.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="ResourceHanRoundedCN-Medium.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DevExpressMvvm" Version="22.1.3" />
     <PackageReference Include="Femyou" Version="0.1.2" />
     <PackageReference Include="MaterialDesignThemes" Version="4.6.0-ci246" />

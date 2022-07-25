@@ -9,6 +9,7 @@
         mc:Ignorable="d"
         xmlns:material="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="MainWindow" Height="700" Width="1200" 
+        TextElement.FontFamily="{StaticResource YuanTi}"
         DataContext="{dxmvvm:ViewModelSource Type=local:MainViewModel}">
     <dxmvvm:Interaction.Behaviors>
         <dxmvvm:DispatcherService />
@@ -24,7 +25,8 @@
                 <StackPanel DockPanel.Dock="Top" Margin="4">
                     <TextBlock Text="FMU路径：" Margin="4"/>
                     <TextBox Margin="4" Height="24" VerticalContentAlignment="Center" IsReadOnly="True" Text="{Binding FmuPath}"/>
-                    <Button Content="选择" Margin="4" Command="{Binding SelectFmuCommand}"/>
+                    <Button Margin="4" Content="打开文件" Command="{Binding SelectFmuCommand}">
+                    </Button>
                 </StackPanel>
                 <ProgressBar Visibility="{Binding IsRun,Converter={dxmvvm:BooleanToVisibilityConverter}}"
                          Value="{Binding Progress}" Maximum="1" DockPanel.Dock="Bottom" Margin="8" Height="24"/>
@@ -39,10 +41,10 @@
                     </StackPanel>
                 </GroupBox>
 
-                <DataGrid DockPanel.Dock="Top" BorderThickness="1" Grid.Row="1" ItemsSource="{Binding Parameters}" CanUserAddRows="False" Margin="8" AutoGenerateColumns="False">
+                <DataGrid DockPanel.Dock="Top" BorderThickness="1" CanUserSortColumns="False" Grid.Row="1" ItemsSource="{Binding Parameters}" CanUserAddRows="False" Margin="8" AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridCheckBoxColumn Binding="{Binding IsDraw}" Header="显示"/>
-                        <DataGridTextColumn Header="参数名" Binding="{Binding Name}" IsReadOnly="True" Width="120"/>
+                        <DataGridCheckBoxColumn Binding="{Binding IsDraw}" Header=""/>
+                        <DataGridTextColumn Header="参数" Binding="{Binding Name}" IsReadOnly="True" Width="120"/>
                         <DataGridTextColumn Header="值" Binding="{Binding ValueSet}" Width="*"/>
                     </DataGrid.Columns>
                 </DataGrid>

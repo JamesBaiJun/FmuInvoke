@@ -9,6 +9,10 @@
                 <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <FontFamily x:Key="YuanTi">
+                pack://application:,,,/#Resource Han Rounded CN Medium
+            </FontFamily>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

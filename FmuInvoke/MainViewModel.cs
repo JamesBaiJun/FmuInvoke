@@ -154,7 +154,7 @@ namespace FmuInvoke
                             MarkerType = MarkerType.None,
                             LegendKey = item.Name,
                             RenderInLegend = true,
-                            LineLegendPosition = LineLegendPosition.Start,
+                            LineLegendPosition = LineLegendPosition.End,
                             TrackerFormatString = "{0}\n{1}: {2:0.00}\n{3}: {4:0.0000}"
                         };
 
