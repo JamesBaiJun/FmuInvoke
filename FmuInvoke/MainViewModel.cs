@@ -51,7 +51,7 @@ namespace FmuInvoke
         /// </summary>
         public virtual double SimulationStep { get; set; } = 0.1;
 
-        IModel model;
+        IModel? model = null;
         /// <summary>
         /// 选择FMU文件
         /// </summary>
@@ -81,7 +81,7 @@ namespace FmuInvoke
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("FMU读取错误");
+                    MessageBox.Show("FMU读取错误，请确认FMU类型为：Co-Simulation 2.0。");
                 }
             }
         }

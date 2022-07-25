@@ -44,7 +44,7 @@
                 <DataGrid DockPanel.Dock="Top" BorderThickness="1" CanUserSortColumns="False" Grid.Row="1" ItemsSource="{Binding Parameters}" CanUserAddRows="False" Margin="8" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridCheckBoxColumn Binding="{Binding IsDraw}" Header=""/>
-                        <DataGridTextColumn Header="参数" Binding="{Binding Name}" IsReadOnly="True" Width="120"/>
+                        <DataGridTextColumn Header="参数" Binding="{Binding Name}" IsReadOnly="True" Width="150"/>
                         <DataGridTextColumn Header="值" Binding="{Binding ValueSet}" Width="*"/>
                     </DataGrid.Columns>
                 </DataGrid>
