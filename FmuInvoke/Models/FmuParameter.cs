@@ -23,6 +23,15 @@ namespace FmuInvoke.Models
         }
 
         /// <summary>
+        /// 描述
+        /// </summary>
+        public string Description
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        /// <summary>
         /// 设置值
         /// </summary>
         public double ValueSet

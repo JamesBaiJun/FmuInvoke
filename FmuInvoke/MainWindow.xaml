@@ -8,7 +8,7 @@
         xmlns:oxyWpf="http://oxyplot.org/wpf"
         mc:Ignorable="d"
         xmlns:material="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="MainWindow" Height="700" Width="1200" 
+        Title="MainWindow" Height="800" Width="1400" 
         TextElement.FontFamily="{StaticResource YuanTi}"
         DataContext="{dxmvvm:ViewModelSource Type=local:MainViewModel}">
     <dxmvvm:Interaction.Behaviors>
@@ -22,16 +22,19 @@
             </Grid.ColumnDefinitions>
 
             <DockPanel>
-                <StackPanel DockPanel.Dock="Top" Margin="4">
-                    <TextBlock Text="FMU路径：" Margin="4"/>
-                    <TextBox Margin="4" Height="24" VerticalContentAlignment="Center" IsReadOnly="True" Text="{Binding FmuPath}"/>
-                    <Button Margin="4" Content="打开文件" Command="{Binding SelectFmuCommand}">
-                    </Button>
-                </StackPanel>
+                <material:Card DockPanel.Dock="Top" Margin="8">
+                    <StackPanel Margin="4">
+                        <TextBlock Text="FMU路径：" Margin="4"/>
+                        <TextBox Margin="4" Height="24" VerticalContentAlignment="Center" IsReadOnly="True" Text="{Binding FmuPath}"/>
+                        <Button Margin="4" Content="打开文件" Command="{Binding SelectFmuCommand}">
+                        </Button>
+                    </StackPanel>
+                </material:Card>
+               
                 <ProgressBar Visibility="{Binding IsRun,Converter={dxmvvm:BooleanToVisibilityConverter}}"
-                         Value="{Binding Progress}" Maximum="1" DockPanel.Dock="Bottom" Margin="8" Height="24"/>
+                         Value="{Binding Progress}" Maximum="1" DockPanel.Dock="Bottom" Margin="8 0 8 8" Height="24"/>
 
-                <GroupBox DockPanel.Dock="Bottom" Header="仿真参数" Margin="8" Padding="8" Style="{StaticResource MaterialDesignCardGroupBox}">
+                <GroupBox DockPanel.Dock="Bottom" Header="仿真参数" Margin="8 0 8 8" Padding="8" Style="{StaticResource MaterialDesignCardGroupBox}">
                     <StackPanel>
                         <TextBlock Text="仿真时间：" Margin="4"/>
                         <TextBox Margin="4" Text="{Binding SimulationTime}" Height="24" VerticalContentAlignment="Center"/>
@@ -40,22 +43,29 @@
                         <Button Content="仿真运行" Margin="4 8 4 4" Command="{Binding SimulationCommand}"/>
                     </StackPanel>
                 </GroupBox>
-
-                <DataGrid DockPanel.Dock="Top" BorderThickness="1" CanUserSortColumns="False" Grid.Row="1" ItemsSource="{Binding Parameters}" CanUserAddRows="False" Margin="8" AutoGenerateColumns="False">
-                    <DataGrid.Columns>
-                        <DataGridCheckBoxColumn Binding="{Binding IsDraw}" Header=""/>
-                        <DataGridTextColumn Header="参数" Binding="{Binding Name}" IsReadOnly="True" Width="150"/>
-                        <DataGridTextColumn Header="值" Binding="{Binding ValueSet}" Width="*"/>
-                    </DataGrid.Columns>
-                </DataGrid>
             </DockPanel>
 
             <Grid Grid.Column="1">
-                <GroupBox Header="图表数据" Style="{StaticResource MaterialDesignCardGroupBox}" Margin="8">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <GroupBox Header="FMU参数" Style="{StaticResource MaterialDesignCardGroupBox}" Margin="0 8 8 8">
+                    <DataGrid CanUserSortColumns="False"  Grid.Row="1" ItemsSource="{Binding Parameters}" CanUserAddRows="False"  AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridCheckBoxColumn Binding="{Binding IsDraw}" Header=""/>
+                            <DataGridTextColumn Header="参数" Binding="{Binding Name}" IsReadOnly="True" Width="200"/>
+                            <DataGridTextColumn Header="值" Binding="{Binding ValueSet}" Width="120"/>
+                            <DataGridTextColumn Header="描述" Binding="{Binding Description}" IsReadOnly="True" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </GroupBox>
+                
+                <GroupBox Grid.Row="1" Header="图表数据" Style="{StaticResource MaterialDesignCardGroupBox}" Margin="0 0 8 8">
                     <oxyWpf:PlotView Background="Transparent" Foreground="White" Model="{Binding ChartModel,Mode=TwoWay}">
                         <oxyWpf:PlotView.DefaultTrackerTemplate>
                             <ControlTemplate>
-                                <oxyWpf:TrackerControl Position="{Binding Position}" Background="{StaticResource PrimaryHueMidBrush}" LineExtents="{Binding PlotModel.PlotArea}">
+                                <oxyWpf:TrackerControl LineStroke="White" Position="{Binding Position}" BorderBrush="White" BorderThickness="1" Background="{StaticResource PrimaryHueDarkBrush}" LineExtents="{Binding PlotModel.PlotArea}">
                                     <oxyWpf:TrackerControl.Content>
                                         <TextBlock Text="{Binding}" Margin="8" />
                                     </oxyWpf:TrackerControl.Content>

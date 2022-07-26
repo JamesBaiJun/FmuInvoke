@@ -25,14 +25,10 @@ namespace FmuInvoke
         public MainViewModel()
         {
             ChartModel = new PlotModel();
-
-            YFormatter = value => value.ToString("f2");
             Parameters = new ObservableCollection<FmuParameter>();
         }
 
         public virtual PlotModel ChartModel { get; set; }
-
-        public Func<double, string> YFormatter { get; set; }
 
         public virtual string FmuPath { get; set; } = string.Empty;
 
@@ -72,6 +68,7 @@ namespace FmuInvoke
                             FmuParameter parameter = new FmuParameter()
                             {
                                 Name = item.Value.Name,
+                                Description = item.Value.Description,
                             };
                             Parameters.Add(parameter);
                         }
@@ -113,25 +110,33 @@ namespace FmuInvoke
                 }
 
                 Parameters.ForEach(x => x.SimulationData.Clear());
-                instance.StartTime(0.0);
-                double usetime = 0;
-                while (usetime <= SimulationTime)
+                try
                 {
-                    Progress = usetime / SimulationTime;
-                    foreach (var item in tempVar)
+                    instance.StartTime(0.0);
+                    double usetime = 0;
+                    while (usetime <= SimulationTime)
                     {
-                        var variables = instance.ReadReal(item);
-                        var currentVar = Parameters.Where(x => x.Name == item.Name).FirstOrDefault();
-                        if (currentVar != null)
+                        Progress = usetime / SimulationTime;
+                        foreach (var item in tempVar)
                         {
-                            currentVar.SimulationData.Add(variables.FirstOrDefault());
+                            var variables = instance.ReadReal(item);
+                            var currentVar = Parameters.Where(x => x.Name == item.Name).FirstOrDefault();
+                            if (currentVar != null)
+                            {
+                                currentVar.SimulationData.Add(variables.FirstOrDefault());
+                            }
                         }
+                        instance.AdvanceTime(SimulationStep);
+                        usetime += SimulationStep;
                     }
-                    instance.AdvanceTime(SimulationStep);
-                    usetime += SimulationStep;
-                }
 
-                DrawChart();
+                    DrawChart();
+                }
+                catch (System.ExecutionEngineException)
+                {
+                    MessageBox.Show("启动失败，请重试！");
+                }
+              
             });
 
             IsRun = false;
@@ -155,6 +160,7 @@ namespace FmuInvoke
                             LegendKey = item.Name,
                             RenderInLegend = true,
                             LineLegendPosition = LineLegendPosition.End,
+                            BrokenLineColor = OxyColor.Parse("#FFFFFF"),
                             TrackerFormatString = "{0}\n{1}: {2:0.00}\n{3}: {4:0.0000}"
                         };
 
