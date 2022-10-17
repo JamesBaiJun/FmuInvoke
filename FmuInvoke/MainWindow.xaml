@@ -56,6 +56,7 @@
                             <DataGridCheckBoxColumn Binding="{Binding IsDraw}" Header=""/>
                             <DataGridTextColumn Header="参数" Binding="{Binding Name}" IsReadOnly="True" Width="200"/>
                             <DataGridTextColumn Header="值" Binding="{Binding ValueSet}" Width="120"/>
+                            <DataGridTextColumn Header="类型" Binding="{Binding Causality}" Width="120" IsReadOnly="True"/>
                             <DataGridTextColumn Header="描述" Binding="{Binding Description}" IsReadOnly="True" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>

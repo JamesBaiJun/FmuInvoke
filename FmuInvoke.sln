@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FmuInvoke", "FmuInvoke\FmuInvoke.csproj", "{22A57DB5-684D-4BCC-8CDC-437E0782A283}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FmuInvoke", "FmuInvoke\FmuInvoke.csproj", "{22A57DB5-684D-4BCC-8CDC-437E0782A283}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Femyou", "Femyou\Femyou.csproj", "{DC48D573-883A-43C1-B0D6-FABACEE246F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{22A57DB5-684D-4BCC-8CDC-437E0782A283}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22A57DB5-684D-4BCC-8CDC-437E0782A283}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22A57DB5-684D-4BCC-8CDC-437E0782A283}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC48D573-883A-43C1-B0D6-FABACEE246F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC48D573-883A-43C1-B0D6-FABACEE246F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC48D573-883A-43C1-B0D6-FABACEE246F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC48D573-883A-43C1-B0D6-FABACEE246F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

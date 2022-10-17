@@ -40,6 +40,14 @@ namespace FmuInvoke.Models
             set { SetValue(value); }
         }
 
+        /// <summary>
+        /// 输入输出类型
+        /// </summary>
+        public Causalition Causality
+        {
+            get { return GetValue<Causalition>(); }
+            set { SetValue(value); }
+        }
 
         /// <summary>
         /// 是否加入绘图
@@ -58,5 +66,11 @@ namespace FmuInvoke.Models
             get { return GetValue<List<double>>(); }
             set { SetValue(value); }
         }
+    }
+
+    public enum Causalition
+    {
+        Output,
+        Input
     }
 }

@@ -3,6 +3,7 @@ using DevExpress.Mvvm.DataAnnotations;
 using DevExpress.Mvvm.Native;
 using DevExpress.Mvvm.POCO;
 using Femyou;
+using Femyou.Common;
 using FmuInvoke.Models;
 using Microsoft.Win32;
 using OxyPlot;
@@ -45,7 +46,7 @@ namespace FmuInvoke
         /// <summary>
         /// 仿真步长
         /// </summary>
-        public virtual double SimulationStep { get; set; } = 0.1;
+        public virtual double SimulationStep { get; set; } = 0.01;
 
         IModel? model = null;
         /// <summary>
@@ -63,17 +64,20 @@ namespace FmuInvoke
                     Parameters.Clear();
                     foreach (var item in model.Variables)
                     {
-                        if (item.Value.Name.Contains("expseu_"))
+                        if (item.Value.Causality.Contains("input") || item.Value.Causality.Contains("output")) // AmeSim导出的输入输出参数
                         {
                             FmuParameter parameter = new FmuParameter()
                             {
                                 Name = item.Value.Name,
                                 Description = item.Value.Description,
+                                Causality = item.Value.Causality.Contains("input") ? Causalition.Input : Causalition.Output,
                             };
+
+                            parameter.IsDraw = parameter.Causality == Causalition.Output ? true : false;
                             Parameters.Add(parameter);
                         }
-
                     }
+
                     FmuPath = openFileDialog.FileName;
                 }
                 catch (Exception)
@@ -83,35 +87,38 @@ namespace FmuInvoke
             }
         }
 
+        int count = 0;
         /// <summary>
         /// 开始运行
         /// </summary>
         public async void Simulation()
         {
+            count++;
             IsRun = true;
             Progress = 0;
             await Task.Run(() =>
             {
-                List<IVariable> tempVar = new List<IVariable>();
-                // 先写入参数值
-                using IInstance instance = Tools.CreateInstance(model, "demo");
-                foreach (var item in Parameters)
-                {
-                    var para = model.Variables[item.Name];
-                    tempVar.Add(para);
-                    try
-                    {
-                        instance.WriteReal((para, item.ValueSet));
-                    }
-                    catch (Exception)
-                    {
-                        continue;
-                    }
-                }
-
-                Parameters.ForEach(x => x.SimulationData.Clear());
                 try
                 {
+                    List<IVariable> tempVar = new List<IVariable>();
+                    // 先写入参数值
+                    using IInstance instance = Tools.CreateInstance(model, $"demo{count}");
+                    foreach (var item in Parameters)
+                    {
+                        var para = model.Variables[item.Name];
+                        tempVar.Add(para);
+                        try
+                        {
+                            instance.WriteReal((para, item.ValueSet));
+                        }
+                        catch (Exception)
+                        {
+                            continue;
+                        }
+                    }
+
+                    Parameters.ForEach(x => x.SimulationData.Clear());
+
                     instance.StartTime(0.0);
                     double usetime = 0;
                     while (usetime <= SimulationTime)
@@ -129,14 +136,14 @@ namespace FmuInvoke
                         instance.AdvanceTime(SimulationStep);
                         usetime += SimulationStep;
                     }
-
                     DrawChart();
                 }
-                catch (System.ExecutionEngineException)
+                catch (Exception)
                 {
-                    MessageBox.Show("启动失败，请重试！");
+                    DrawChart();
+                    MessageBox.Show("计算时出现异常，提前结束。");
                 }
-              
+
             });
 
             IsRun = false;
@@ -147,6 +154,9 @@ namespace FmuInvoke
         {
             PlotModel tempPlot = new PlotModel();
             tempPlot.IsLegendVisible = true;
+            int countdig = CommonTool.GetNumberOfDecimalPlaces(SimulationStep);
+            string digitFormat = "0.".PadRight(countdig + 2, '0');
+
             foreach (var item in Parameters)
             {
                 await DispatcherService.BeginInvoke(() =>
@@ -161,7 +171,7 @@ namespace FmuInvoke
                             RenderInLegend = true,
                             LineLegendPosition = LineLegendPosition.End,
                             BrokenLineColor = OxyColor.Parse("#FFFFFF"),
-                            TrackerFormatString = "{0}\n{1}: {2:0.00}\n{3}: {4:0.0000}"
+                            TrackerFormatString = "{0}\n{1}: {2:" + digitFormat + "}\n{3}: {4:0.00000}"
                         };
 
                         double x = 0;
@@ -174,8 +184,10 @@ namespace FmuInvoke
                     }
                 });
             }
-            
+
             ChartModel = tempPlot;
         }
+
+
     }
 }

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
@@ -17,9 +17,12 @@
 
   <ItemGroup>
     <PackageReference Include="DevExpressMvvm" Version="22.1.3" />
-    <PackageReference Include="Femyou" Version="0.1.2" />
     <PackageReference Include="MaterialDesignThemes" Version="4.6.0-ci246" />
     <PackageReference Include="OxyPlot.Wpf" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Femyou\Femyou.csproj" />
   </ItemGroup>
 
 </Project>
